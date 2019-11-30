@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class mawashi : MonoBehaviour
+public class mawashi__namei__ : MonoBehaviour
 {
   // individual number
-  int number = 1;
+  int number = __numberi__;
   Vector2 goal;
   int goalY;
   float phase;
