@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class mawashi__namei__ : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class mawashi__namei__ : MonoBehaviour
   float weakenNumber;
   float weakenPeriod;
   float angleAtPeriod;
+  float goalTime;
+  int isParade;
 
   // Start is called before the first frame update
   void Start()
@@ -50,11 +53,19 @@ public class mawashi__namei__ : MonoBehaviour
     phaseDiffY = Mathf.Sin(phase);
     float xOfSin = phase;
     goalY = getY(xOfSin);
+
+    // 最初にゴールした時間
+    goalTime = 0.0f;
   }
 
   // Update is called once per frame
   void Update()
   {
+    if (isParade == 1) {
+      parade();
+      return;
+    }
+
     Vector3 pos = Input.mousePosition;
     pos.x = (int)pos.x;
     pos.y = (int)pos.y;
@@ -75,6 +86,8 @@ public class mawashi__namei__ : MonoBehaviour
 
     transform.rotation = Quaternion.Euler(0, newY, 0);
     Debug.Log("goal: " + goal.x + ", " + goal.y + " :pos: " + pos.x + ", " + pos.y + " :y: " + goalY + ", " + newY);
+
+    checkIsGoal(pos, newY);
   }
 
   int getY(float x) {
@@ -91,4 +104,45 @@ public class mawashi__namei__ : MonoBehaviour
       ) / resolution
     ) * ((int)resolution) + 180;  // 180: 前
   }
+
+  void parade() {
+    int paradeTime = (int)(Time.time - goalTime);
+
+    if (paradeTime > 4 && number == 1) {
+      // 4秒パレードしたら連番1がタイトルに戻す
+      SceneManager.LoadScene("title");
+    } else if ((paradeTime % 2) == 1) {
+      makeMasawadaNormal();
+    } else {
+      makeMasawadaGreatAgain();
+    }
+  }
+
+  void checkIsGoal(Vector3 pos, int y) {
+    float time = Time.time;
+
+    int isNearGoal = 0;
+    int goalWindow = 2;
+    if (Mathf.Abs(pos.x - goal.x) < goalWindow && Mathf.Abs(pos.y - goal.y) < goalWindow) {
+      isNearGoal = 1;
+    }
+
+    if (y == 180 && isNearGoal == 1) {
+      if (goalTime == 0) {
+        goalTime = time;
+        makeMasawadaGreatAgain();
+      } else {
+        // 0.5秒間ゴールし続けられたらパレード開催
+        if (time - goalTime > 0.5f) {
+          isParade = 1;
+        }
+      }
+    } else {
+      goalTime = 0.0f;
+      makeMasawadaNormal();
+    }
+  }
+
+  void makeMasawadaGreatAgain() {}
+  void makeMasawadaNormal() {}
 }
