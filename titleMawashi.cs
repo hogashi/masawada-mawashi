@@ -13,7 +13,7 @@ public class titleMawashi : MonoBehaviour
   void Update()
   {
     float time = Time.time;
-    float xOfSin = time * 2.0f * Mathf.PI / 10.0f;
+    float xOfSin = time * 2.0f * Mathf.PI / 20.0f;
     int newY = getY(xOfSin);
     transform.rotation = Quaternion.Euler(0, newY, 0);
     Debug.Log("time: " + time + " :y: " + newY);
