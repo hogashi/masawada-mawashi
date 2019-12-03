@@ -17,7 +17,6 @@ public class mawashi : MonoBehaviour
   float startTime;
   float goalTime;
   int isParade;
-  // GameObject[] hint;
   GameObject hint;
   GameObject[] masawadas;
   Vector2 goal;
@@ -185,10 +184,6 @@ public class mawashi : MonoBehaviour
   }
 
   void setRotation(int i, string tag, int x, int y, int z) {
-      // GameObject[] objs = GameObject.FindGameObjectsWithTag(tag);
-      // foreach (GameObject obj in objs) {
-      //   obj.transform.localRotation = Quaternion.Euler(x, y, z);
-      // }
       GameObject obj = GameObject.FindGameObjectsWithTag(tag)[i];
       obj.transform.localRotation = Quaternion.Euler(x, y, z);
   }
