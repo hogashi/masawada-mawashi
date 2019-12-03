@@ -64,7 +64,7 @@ public class mawashi : MonoBehaviour
       (int)(Random.Range(padding, Screen.width - padding)),
       (int)(Random.Range(padding, Screen.height - padding))
     );
-    Debug.Log("goal : " + goal.x + ", " + goal.y + " : screen : " + Screen.width + ", " + Screen.height);
+    // Debug.Log("goal : " + goal.x + ", " + goal.y + " : screen : " + Screen.width + ", " + Screen.height);
 
     hint = GameObject.FindWithTag("Hint");
     int hintX = (int)(Random.Range(goal.x - hintRadius, goal.x + hintRadius));
@@ -114,7 +114,7 @@ public class mawashi : MonoBehaviour
         // パレードすべきなのは全員が前を向いているときだけ
         shouldParade = 0;
       }
-      Debug.Log(i + ": goal: " + goal.x + ", " + goal.y + " :pos: " + pos.x + ", " + pos.y + " :y: " + newY);
+      // Debug.Log(i + ": goal: " + goal.x + ", " + goal.y + " :pos: " + pos.x + ", " + pos.y + " :y: " + newY);
     }
 
     if (shouldParade == 1) {
@@ -201,7 +201,7 @@ public class mawashi : MonoBehaviour
   }
 
   void makeMasawadaGreatAgain(int i) {
-    Debug.Log("makeMasawadaGreatAgain");
+    // Debug.Log("makeMasawadaGreatAgain");
 
     // 左腕
     setRotation(i, "LA", 0, 0, 77);
@@ -247,7 +247,7 @@ public class mawashi : MonoBehaviour
   }
 
   void makeMasawadaNormal(int i) {
-    Debug.Log("makeMasawadaNormal");
+    // Debug.Log("makeMasawadaNormal");
 
     // 左腕
     setRotation(i, "LA", 0, 0, 81);
