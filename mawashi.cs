@@ -12,9 +12,13 @@ public class mawashi : MonoBehaviour
   float weakenPeriod;
   float angleAtPeriod;
   float resolution;
+  int hintRadius;
 
+  float startTime;
   float goalTime;
   int isParade;
+  // GameObject[] hint;
+  GameObject hint;
   GameObject[] masawadas;
   Vector2 goal;
   float[] phase;
@@ -38,7 +42,11 @@ public class mawashi : MonoBehaviour
     // マウス操作にあまりにシビアだとクリアできないので,
     // 回転角の解像度を落とす
     resolution = 12.0f;
+    // ヒントの半径
+    hintRadius = 80;
 
+    // 始めた時間
+    startTime = Time.time;
     // 最初にゴールした時間
     goalTime = 0.0f;
     // パレード中かどうか
@@ -58,6 +66,13 @@ public class mawashi : MonoBehaviour
       (int)(Random.Range(padding, Screen.height - padding))
     );
     Debug.Log("goal : " + goal.x + ", " + goal.y + " : screen : " + Screen.width + ", " + Screen.height);
+
+    hint = GameObject.FindWithTag("Hint");
+    int hintX = (int)(Random.Range(goal.x - hintRadius, goal.x + hintRadius));
+    int hintY = (int)(Random.Range(goal.y - hintRadius, goal.y + hintRadius));
+    hint.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(hintX, hintY, 10));
+    // 最初はヒント消しておく
+    hint.SetActive(false);
 
     masawadas = GameObject.FindGameObjectsWithTag("masawada");
 
@@ -81,6 +96,11 @@ public class mawashi : MonoBehaviour
     if (isParade == 1) {
       parade();
       return;
+    }
+
+    // 始めて90秒経ったらヒント出す
+    if ((int)(Time.time - startTime) > 90) {
+      hint.SetActive(true);
     }
 
     Vector3 pos = Input.mousePosition;
