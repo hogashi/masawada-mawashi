@@ -59,12 +59,12 @@ public class mawashi : MonoBehaviour
     );
     Debug.Log("goal : " + goal.x + ", " + goal.y + " : screen : " + Screen.width + ", " + Screen.height);
 
-    masawadas = new GameObject[numberN];
+    masawadas = GameObject.FindGameObjectsWithTag("masawada");
+
     phase = new float[numberN];
     phaseDiffY = new float[numberN];
     for (int i = 0; i < numberN; i++) {
       int number = i + 1;
-      masawadas[i] = GameObject.FindWithTag("wada" + number);
       // 位相のずれは毎回かつ人によって違うものにするために,
       // マウス位置と連番の和を乱数シードにする
       Random.InitState(initX + number);
@@ -103,7 +103,7 @@ public class mawashi : MonoBehaviour
       if (goalTime == 0) {
         goalTime = time;
         // ゴールしたらその旨即座に示す
-        makeMasawadaGreatAgain();
+        makeAllMasawadaGreatAgain();
       } else {
         // 0.5秒間ゴールし続けられたらパレード開催
         if (time - goalTime > 0.5f) {
@@ -112,7 +112,7 @@ public class mawashi : MonoBehaviour
       }
     } else {
       goalTime = 0.0f;
-      makeMasawadaNormal();
+      makeAllMasawadaNormal();
     }
   }
 
@@ -145,22 +145,135 @@ public class mawashi : MonoBehaviour
   }
 
   void parade() {
-    int paradeTime = (int)(Time.time - goalTime);
+    float diff = Time.time - goalTime;
+    int paradeTime = (int)diff;
 
     if (paradeTime >= 5) {
       // 5秒パレードしたらタイトルに戻す
       SceneManager.LoadScene("title");
-    } else if ((paradeTime % 2) == 0) {
-      makeMasawadaNormal();
     } else {
-      makeMasawadaGreatAgain();
+      for (int i = 0; i < numberN; i++) {
+        if ((int)((diff - paradeTime) * 10.0f) > i) {
+          if ((paradeTime % 2) == 0) {
+            makeMasawadaNormal(i);
+          } else {
+            makeMasawadaGreatAgain(i);
+          }
+        }
+      }
     }
   }
 
-  void makeMasawadaGreatAgain() {
-    Debug.Log("makeMasawadaGreatAgain");
+  void setRotation(int i, string tag, int x, int y, int z) {
+      // GameObject[] objs = GameObject.FindGameObjectsWithTag(tag);
+      // foreach (GameObject obj in objs) {
+      //   obj.transform.localRotation = Quaternion.Euler(x, y, z);
+      // }
+      GameObject obj = GameObject.FindGameObjectsWithTag(tag)[i];
+      obj.transform.localRotation = Quaternion.Euler(x, y, z);
   }
-  void makeMasawadaNormal() {
+
+  void makeAllMasawadaGreatAgain() {
+    for (int i = 0; i < numberN; i++) {
+      makeMasawadaGreatAgain(i);
+    }
+  }
+
+  void makeAllMasawadaNormal() {
+    for (int i = 0; i < numberN; i++) {
+      makeMasawadaNormal(i);
+    }
+  }
+
+  void makeMasawadaGreatAgain(int i) {
+    Debug.Log("makeMasawadaGreatAgain");
+
+    // 左腕
+    setRotation(i, "LA", 0, 0, 77);
+    setRotation(i, "LE", -7, 6, 10);
+    setRotation(i, "LW", 0, 0, 0);
+    // 左手指
+    setRotation(i, "LI1", 0, 0, 5);
+    setRotation(i, "LI2", 0, 0, 20);
+    setRotation(i, "LI3", 0, 0, 15);
+    setRotation(i, "LL1", 0, 0, 0);
+    setRotation(i, "LL2", 0, 0, 40);
+    setRotation(i, "LL3", 0, 0, 20);
+    setRotation(i, "LM1", 0, 0, 2);
+    setRotation(i, "LM2", 0, 0, 40);
+    setRotation(i, "LM3", 0, -10, 20);
+    setRotation(i, "LR1", 0, 0, 3);
+    setRotation(i, "LR2", 0, 0, 30);
+    setRotation(i, "LR3", 0, 0, 30);
+    setRotation(i, "LT1", 30, -40, -10);
+    setRotation(i, "LT2", 0, 0, 0);
+    setRotation(i, "LT3", 0, 0, 0);
+
+    // 右腕
+    setRotation(i, "RA", 0, 0, -70);
+    setRotation(i, "RE", 0, -100, -20);
+    setRotation(i, "RW", -15, 5, 0);
+    // 右手指
+    setRotation(i, "RI1", 25, -5, -30);
+    setRotation(i, "RI2", 0, 0, -100);
+    setRotation(i, "RI3", 0, 0, -60);
+    setRotation(i, "RL1", 0, 0, -50);
+    setRotation(i, "RL2", 0, 0, -120);
+    setRotation(i, "RL3", 0, 0, -60);
+    setRotation(i, "RM1", -5, -14, -85);
+    setRotation(i, "RM2", 0, 0, -100);
+    setRotation(i, "RM3", 0, 0, -60);
+    setRotation(i, "RR1", -17, -5, -60);
+    setRotation(i, "RR2", 0, 0, -100);
+    setRotation(i, "RR3", 0, 0, -60);
+    setRotation(i, "RT1", 0, 0, 0);
+    setRotation(i, "RT2", 0, 0, 0);
+    setRotation(i, "RT3", 0, 0, 0);
+  }
+
+  void makeMasawadaNormal(int i) {
     Debug.Log("makeMasawadaNormal");
+
+    // 左腕
+    setRotation(i, "LA", 0, 0, 81);
+    setRotation(i, "LE", 0, 0, 0);
+    setRotation(i, "LW", 0, 0, 0);
+    // 左手指
+    setRotation(i, "LI1", 0, 0, 0);
+    setRotation(i, "LI2", 0, 0, 0);
+    setRotation(i, "LI3", 0, 0, 0);
+    setRotation(i, "LL1", 0, 0, 0);
+    setRotation(i, "LL2", 0, 0, 0);
+    setRotation(i, "LL3", 0, 0, 0);
+    setRotation(i, "LM1", 0, 0, 0);
+    setRotation(i, "LM2", 0, 0, 0);
+    setRotation(i, "LM3", 0, 0, 0);
+    setRotation(i, "LR1", 0, 0, 0);
+    setRotation(i, "LR2", 0, 0, 0);
+    setRotation(i, "LR3", 0, 0, 0);
+    setRotation(i, "LT1", 0, 0, 0);
+    setRotation(i, "LT2", 0, 0, 0);
+    setRotation(i, "LT3", 0, 0, 0);
+
+    // 右腕
+    setRotation(i, "RA", 0, 0, -80);
+    setRotation(i, "RE", 0, 0, 0);
+    setRotation(i, "RW", 0, 0, 0);
+    // 右手指
+    setRotation(i, "RI1", 0, 0, 0);
+    setRotation(i, "RI2", 0, 0, 0);
+    setRotation(i, "RI3", 0, 0, 0);
+    setRotation(i, "RL1", 0, 0, 0);
+    setRotation(i, "RL2", 0, 0, 0);
+    setRotation(i, "RL3", 0, 0, 0);
+    setRotation(i, "RM1", 0, 0, 0);
+    setRotation(i, "RM2", 0, 0, 0);
+    setRotation(i, "RM3", 0, 0, 0);
+    setRotation(i, "RR1", 0, 0, 0);
+    setRotation(i, "RR2", 0, 0, 0);
+    setRotation(i, "RR3", 0, 0, 0);
+    setRotation(i, "RT1", 0, 0, 0);
+    setRotation(i, "RT2", 0, 0, 0);
+    setRotation(i, "RT3", 0, 0, 0);
   }
 }
