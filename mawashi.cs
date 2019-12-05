@@ -70,11 +70,24 @@ public class mawashi : MonoBehaviour
     // Debug.Log("goal : " + goal.x + ", " + goal.y + " : screen : " + Screen.width + ", " + Screen.height);
 
     hint = GameObject.FindWithTag("Hint");
-    int hintX = (int)(Random.Range(goal.x - hintRadius, goal.x + hintRadius));
-    int hintY = (int)(Random.Range(goal.y - hintRadius, goal.y + hintRadius));
+    int hintPadding = 5;
+    int hintNorm = Random.Range(hintPadding, hintRadius - hintPadding);
+    int hintAngle = Random.Range(0, 359);
+    int hintDiffX = (int)(Mathf.Cos(dpi * hintAngle / 360.0f) * (float)hintNorm);
+    int hintDiffY = (int)(Mathf.Sin(dpi * hintAngle / 360.0f) * (float)hintNorm);
+    int hintX = (int)goal.x - hintDiffX;
+    int hintY = (int)goal.y - hintDiffY;
+    // ヒントがpaddingよりも端なら見切れすぎなので反転して比較的内側にする
+    if (hintX < padding || Screen.width - padding < hintX) {
+      hintX = (int)goal.x + hintDiffX;
+    }
+    if (hintY < padding || Screen.width - padding < hintY) {
+      hintY = (int)goal.y + hintDiffY;
+    }
     hint.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(hintX, hintY, 10));
     // 最初はヒント消しておく
     hint.SetActive(false);
+    // Debug.Log("hint: " + hintNorm + " : " + hintAngle + " -> " + hintX + "(" + ((int)goal.x - hintDiffX) + ")" + " : " + hintY + "(" + ((int)goal.y - hintDiffY) + ")");
 
     masawadas = GameObject.FindGameObjectsWithTag("masawada");
 
