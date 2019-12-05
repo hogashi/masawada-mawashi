@@ -16,7 +16,7 @@ public class titleMawashi : MonoBehaviour
     float xOfSin = time * 2.0f * Mathf.PI / 20.0f;
     int newY = getY(xOfSin);
     transform.rotation = Quaternion.Euler(0, newY, 0);
-    Debug.Log("time: " + time + " :y: " + newY);
+    // Debug.Log("time: " + time + " :y: " + newY);
   }
 
   int getY(float x) {
