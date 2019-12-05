@@ -13,6 +13,7 @@ public class mawashi : MonoBehaviour
   float angleAtPeriod;
   float resolution;
   int hintRadius;
+  int hintTime;
 
   float startTime;
   float goalTime;
@@ -43,6 +44,8 @@ public class mawashi : MonoBehaviour
     resolution = 12.0f;
     // ヒントの半径
     hintRadius = 80;
+    // ヒント出すまでの時間
+    hintTime = 40;
 
     // 始めた時間
     startTime = Time.time;
@@ -97,8 +100,8 @@ public class mawashi : MonoBehaviour
       return;
     }
 
-    // 始めて90秒経ったらヒント出す
-    if ((int)(Time.time - startTime) > 90) {
+    // 始めてhintTime秒経ったらヒント出す
+    if ((int)(Time.time - startTime) > hintTime) {
       hint.SetActive(true);
     }
 
