@@ -54,13 +54,12 @@ public class mawashi : MonoBehaviour
     // パレード中かどうか
     isParade = 0;
 
-    // ゴール座標は毎回違うけど6人全員同じにするために,
+    // ゴール座標は毎回違えるために,
     // マウス位置を乱数シードにする
-    // (細かな違いまで使って偶然性を出すために小数第2位まで使う)
-    int initX = (int)(
-      Camera.main.ScreenToWorldPoint(Input.mousePosition).x * 100.0f
-    );
-    Random.InitState(initX);
+    // (小数第3位まで使ってできるだけ細かな違いまで使って偶然性を出す)
+    Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    int initXY = (int)((mousePosition.x + mousePosition.y) * 1000.0f);
+    Random.InitState(initXY);
     // これより端にゴールを設定しない
     int padding = 15;
     goal = new Vector2(
@@ -97,7 +96,7 @@ public class mawashi : MonoBehaviour
       int number = i + 1;
       // 位相のずれは毎回かつ人によって違うものにするために,
       // マウス位置と連番の和を乱数シードにする
-      Random.InitState(initX + number);
+      Random.InitState(initXY + number);
       phase[i] = Random.Range(0, dpi);
       // Yで補正すべき値も計算しておいて使う
       phaseDiffY[i] = Mathf.Sin(phase[i]);
